@@ -1,0 +1,179 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Data_and_Web_Coursework.Site" %>
+
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <title>KumariCinemas — Admin Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet" />
+    <!-- Chart.js for Dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="index.css" rel="stylesheet" />
+    
+    <style>
+        /* Overriding remaining colored alerts/elements to fit the greyscale theme */
+        .text-danger  { color: var(--g800) !important; }
+        .text-warning { color: var(--g500) !important; }
+        .text-success { color: var(--g900) !important; }
+        .text-info    { color: var(--g400) !important; }
+        .bg-danger, .bg-warning, .bg-success, .bg-info, .bg-primary { 
+            background-color: var(--g800) !important; 
+            color: white !important;
+        }
+        .badge { font-weight: 500; border-radius: 4px; }
+        .alert-info, .alert-warning, .alert-success, .alert-danger {
+            background-color: var(--g200);
+            border-color: var(--g300);
+            color: var(--g900);
+        }
+        
+        /* GridView overrides */
+        .table-dark {
+            --bs-table-bg: var(--g900);
+            --bs-table-color: var(--g50);
+        }
+    </style>
+    <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+</head>
+<body>
+<form id="form1" runat="server">
+    
+    <!-- ── Sidebar Navigation ── -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-video"></i> KumariCinemas
+        </div>
+        <ul class="sidebar-menu">
+            <li>
+                <a href="Default.aspx" class="sidebar-link">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+            </li>
+            
+            <li class="px-3 pt-3 pb-2 text-uppercase" style="font-size:0.7rem; color:var(--g500); font-weight:700;">Entity Management</li>
+
+            <li><a href="Users.aspx"       class="sidebar-link"><i class="fas fa-users"></i> Users</a></li>
+            <li><a href="Cinemas.aspx"     class="sidebar-link"><i class="fas fa-building"></i> Cinemas & Halls</a></li>
+            <li><a href="Movies.aspx"      class="sidebar-link"><i class="fas fa-film"></i> Movies</a></li>
+            <li><a href="Showtimes.aspx"   class="sidebar-link"><i class="fas fa-clock"></i> Showtimes</a></li>
+            <li><a href="Seats.aspx"       class="sidebar-link"><i class="fas fa-chair"></i> Seats</a></li>
+            <li><a href="Bookings.aspx"    class="sidebar-link"><i class="fas fa-bookmark"></i> Bookings</a></li>
+            <li><a href="Tickets.aspx"     class="sidebar-link"><i class="fas fa-ticket-alt"></i> Tickets</a></li>
+            <li><a href="PricingPolicies.aspx" class="sidebar-link"><i class="fas fa-tags"></i> Pricing Policies</a></li>
+            
+            <li class="px-3 pt-4 pb-2 text-uppercase" style="font-size:0.7rem; color:var(--g500); font-weight:700;">Analytics & Reports</li>
+
+            <li><a href="UserTicketReport.aspx"   class="sidebar-link"><i class="fas fa-chart-pie"></i> Loyalty Radar</a></li>
+            <li><a href="TheaterMovieReport.aspx" class="sidebar-link"><i class="fas fa-map"></i> Theater Stats</a></li>
+            <li><a href="OccupancyReport.aspx"    class="sidebar-link"><i class="fas fa-trophy"></i> Hall Spotlight</a></li>
+        </ul>
+    </aside>
+
+    <!-- ── Main Content Area ── -->
+    <div class="main-content" id="mainContent">
+        <!-- Topbar -->
+        <header class="topbar">
+            <button type="button" class="sidebar-toggler" id="sidebarToggle" aria-label="Toggle Sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <div class="text-end">
+                    <span class="d-block fw-bold" style="font-size:0.9rem; color:var(--g900);">Admin User</span>
+                    <span class="d-block" style="font-size:0.75rem; color:var(--g500);">System Administrator</span>
+                </div>
+                <div style="width: 38px; height: 38px; background:var(--g200); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--g800);">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dynamic Page Content -->
+        <main class="content-wrapper">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+        </main>
+        
+        <!-- Minimal Footer -->
+        <footer class="mt-auto px-4 py-3" style="border-top:1px solid var(--g200); font-size:0.8rem; color:var(--g500); text-align:center;">
+            &copy; 2026 KumariCinemas Operations. Powered by Oracle 19c.
+        </footer>
+    </div>
+
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+
+<script>
+    // Highlight active nav link based on current page
+    document.addEventListener('DOMContentLoaded', function () {
+        var path = window.location.pathname.toLowerCase();
+        document.querySelectorAll('.sidebar-link').forEach(function (el) {
+            var href = (el.getAttribute('href') || '').toLowerCase();
+            if (href && path.endsWith(href)) {
+                el.classList.add('active');
+            }
+        });
+
+        // Mobile sidebar toggle
+        const toggleBtn = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+            });
+        }
+    });
+
+    // Global SweetAlert Popup function (used by C# code-behind)
+    function ShowPopup(title, message, type) {
+        Swal.fire({
+            title: title,
+            html: message,
+            icon: type,        // 'success', 'error', 'warning', 'info'
+            confirmButtonColor: '#171717',
+            confirmButtonText: 'Continue',
+            background: '#fafafa',
+            customClass: {
+                popup: 'rounded-1 shadow-lg border',
+                title: 'fs-5 fw-bold'
+            }
+        });
+    }
+
+    // Gridview delete confirmation using SweetAlert
+    function confirmDelete(btn, entity) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This " + entity + " will be permanently removed!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#262626',
+            cancelButtonColor: '#a1a1a1',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If user confirms, trigger the original click
+                btn.onclick = null;
+                btn.click();
+            }
+        });
+        return false;
+    }
+
+    // Toggle Help/Guide sections
+    function toggleGuide() {
+        var body = document.getElementById('guideBody');
+        var chev = document.getElementById('guideChevron');
+        if (!body || !chev) return;
+        
+        var open = body.style.display !== 'none';
+        body.style.display = open ? 'none' : 'block';
+        chev.className = open ? 'fas fa-chevron-down ms-auto' : 'fas fa-chevron-up ms-auto';
+    }
+</script>
+</body>
+</html>
