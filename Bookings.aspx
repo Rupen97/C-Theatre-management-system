@@ -4,7 +4,8 @@
     <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
         <div class="row">
             <div class="col-md-12">
-                <h2 class="mb-1">Booking Management</h2>
+                <h2 class="mb-1">Booking Management<asp:SqlDataSource ID="SqlDataSource1" runat="server"></asp:SqlDataSource>
+                </h2>
                 <p class="text-muted mb-4">Manage customer reservations and status updates.</p>
 
                 <%-- ── Help Section ── --%>
