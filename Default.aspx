@@ -28,10 +28,11 @@
         </div>
 
         <%-- ── Help Section ── --%>
-            <div class="alert alert-info border-0 shadow-sm mb-4 p-0" style="border-radius:12px;overflow:hidden;">
-                <div class="d-flex align-items-center px-4 py-2 fw-bold"
-                    style="background:rgba(13,202,240,.15);cursor:pointer;" onclick="toggleGuide()">
-                    <i class="fas fa-question-circle text-info me-2"></i> How to use the Dashboard?
+            <div class="alert alert-secondary border-0 shadow-sm mb-4 p-0"
+                style="border-radius:12px;overflow:hidden;background:var(--g100);">
+                <div class="d-flex align-items-center px-4 py-2 fw-bold" style="background:var(--g200);cursor:pointer;"
+                    onclick="toggleGuide()">
+                    <i class="fas fa-question-circle text-dark me-2"></i> How to use the Dashboard?
                     <i class="fas fa-chevron-down ms-auto" id="guideChevron"></i>
                 </div>
                 <div id="guideBody" style="display:none;" class="px-4 py-3">

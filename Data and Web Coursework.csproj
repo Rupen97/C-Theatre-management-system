@@ -183,6 +183,7 @@
     <Content Include="PricingPolicies.aspx" />
     <Content Include="Bookings.aspx" />
     <Content Include="Site.Master" />
+    <Content Include="webform1.aspx" />
     <None Include="Schema.sql" />
     <Content Include="Web.config" />
   </ItemGroup>

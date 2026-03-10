@@ -8,11 +8,11 @@
                 <p class="text-muted mb-4">Manage theater locations and their respective screening halls.</p>
 
                 <%-- ── Help Section ── --%>
-                    <div class="alert alert-info border-0 shadow-sm mb-4 p-0"
-                        style="border-radius:12px;overflow:hidden;">
+                    <div class="alert alert-secondary border-0 shadow-sm mb-4 p-0"
+                        style="border-radius:12px;overflow:hidden;background:var(--g100);">
                         <div class="d-flex align-items-center px-4 py-2 fw-bold"
-                            style="background:rgba(13,202,240,.15);cursor:pointer;" onclick="toggleGuide()">
-                            <i class="fas fa-question-circle text-info me-2"></i> Cinema & Hall Tips
+                            style="background:var(--g200);cursor:pointer;" onclick="toggleGuide()">
+                            <i class="fas fa-question-circle text-dark me-2"></i> Cinema & Hall Tips
                             <i class="fas fa-chevron-down ms-auto" id="guideChevron"></i>
                         </div>
                         <div id="guideBody" style="display:none;" class="px-4 py-3">
@@ -20,7 +20,8 @@
                                 <li class="mb-1"><strong>Theater Groups</strong>: All halls must be assigned to an
                                     existing theater.</li>
                                 <li class="mb-1"><strong>Hall Capacity</strong>: This is a reference value; seat
-                                    availability is managed on the <a href="Seats.aspx">Seats</a> page.</li>
+                                    availability is managed on the <a runat="server" href="~/Seats.aspx">Seats</a> page.
+                                </li>
                                 <li class="mb-0"><strong>Cinema Details</strong>: Update contact info and email for
                                     theater locations to ensure accurate reporting.</li>
                             </ul>
@@ -28,8 +29,9 @@
                     </div>
 
                     <!-- Cinema Section -->
-                    <div class="card mb-4 shadow-sm">
-                        <div class="card-header bg-primary text-white">Add / Update Cinema</div>
+                    <div class="card mb-4 shadow-sm border-0" style="border-radius:14px;">
+                        <div class="card-header text-white fw-bold"
+                            style="background:var(--g800);border-radius:14px 14px 0 0;">Add / Update Cinema</div>
                         <div class="card-body">
                             <div class="row g-3">
                                 <asp:HiddenField ID="hfCinemaID" runat="server" />
@@ -65,8 +67,9 @@
                     </div>
 
                     <!-- Hall Section -->
-                    <div class="card mb-4 shadow-sm border-info">
-                        <div class="card-header bg-info text-dark">Add / Update Hall</div>
+                    <div class="card mb-4 shadow-sm border-0" style="border-radius:14px;">
+                        <div class="card-header text-white fw-bold"
+                            style="background:var(--g800);border-radius:14px 14px 0 0;">Add / Update Hall</div>
                         <div class="card-body">
                             <div class="row g-3">
                                 <asp:HiddenField ID="hfHallID" runat="server" />
