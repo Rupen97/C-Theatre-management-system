@@ -190,11 +190,11 @@ namespace Data_and_Web_Coursework
             }
             else if (e.CommandName == "ScheduleMovie")
             {
-                Response.Redirect("Showtimes.aspx?movieId=" + id);
+                Response.Redirect("~/Showtimes.aspx?movieId=" + id);
             }
             else if (e.CommandName == "ViewOccupancy")
             {
-                Response.Redirect("OccupancyReport.aspx?movieId=" + id);
+                Response.Redirect("~/OccupancyReport.aspx?movieId=" + id);
             }
         }
 
