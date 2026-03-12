@@ -18,8 +18,8 @@
                         </div>
                         <div id="guideBody" style="display:none;" class="px-4 py-3">
                             <ul class="mb-0 ps-3">
-                                <li class="mb-1"><strong>Multiplier</strong>: 1.00 is base price. 1.25 is a 25%
-                                    increase. 0.90 is a 10% discount.</li>
+                                <li class="mb-1"><strong>Discount (%)</strong>: Enter exactly the percentage to deduct.
+                                    For example, 20 is a 20% discount. 0 is base price.</li>
                                 <li class="mb-1"><strong>Policy Date</strong>: This is a reference for when the policy
                                     was created or applies.</li>
                                 <li class="mb-0"><strong>Application</strong>: Policies are linked to <a
@@ -42,7 +42,7 @@
                                     </asp:TextBox>
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="form-label">Multiplier</label>
+                                    <label class="form-label">Discount (%)</label>
                                     <asp:TextBox ID="txtMultiplier" runat="server" CssClass="form-control"
                                         TextMode="Number" step="0.01"></asp:TextBox>
                                 </div>
@@ -73,8 +73,12 @@
                                 <Columns>
                                     <asp:BoundField DataField="POLICY_ID" HeaderText="ID" />
                                     <asp:BoundField DataField="POLICY_NAME" HeaderText="Name" />
-                                    <asp:BoundField DataField="MULTIPLIER" HeaderText="Multiplier"
-                                        DataFormatString="{0:F2}x" />
+                                    <asp:TemplateField HeaderText="Discount">
+                                        <ItemTemplate>
+                                            <%# string.Format("{0:0.##}%", (1.0 - Convert.ToDouble(Eval("MULTIPLIER")))
+                                                * 100) %>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
                                     <asp:BoundField DataField="POLICY_DATE" HeaderText="Date"
                                         DataFormatString="{0:d}" />
                                     <asp:TemplateField>

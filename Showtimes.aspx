@@ -8,11 +8,11 @@
                 <p class="text-muted mb-4">Schedule movies in halls and set base pricing.</p>
 
                 <%-- ── Help Section ── --%>
-                    <div class="alert alert-info border-0 shadow-sm mb-4 p-0"
-                        style="border-radius:12px;overflow:hidden;">
+                    <div class="alert alert-secondary border-0 shadow-sm mb-4 p-0"
+                        style="border-radius:12px;overflow:hidden;background:var(--g100);">
                         <div class="d-flex align-items-center px-4 py-2 fw-bold"
-                            style="background:rgba(13,202,240,.15);cursor:pointer;" onclick="toggleGuide()">
-                            <i class="fas fa-question-circle text-info me-2"></i> Showtime Planning
+                            style="background:var(--g200);cursor:pointer;" onclick="toggleGuide()">
+                            <i class="fas fa-question-circle text-dark me-2"></i> Showtime Planning
                             <i class="fas fa-chevron-down ms-auto" id="guideChevron"></i>
                         </div>
                         <div id="guideBody" style="display:none;" class="px-4 py-3">
@@ -28,8 +28,9 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="card mb-4 shadow border-warning">
-                        <div class="card-header bg-warning text-dark">Add / Update Showtime</div>
+                    <div class="card mb-4 shadow-sm border-0" style="border-radius:14px;">
+                        <div class="card-header text-white fw-bold"
+                            style="background:var(--g800);border-radius:14px 14px 0 0;">Add / Update Showtime</div>
                         <div class="card-body">
                             <div class="row g-3">
                                 <asp:HiddenField ID="hfShowID" runat="server" />

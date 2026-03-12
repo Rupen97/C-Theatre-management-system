@@ -41,13 +41,17 @@ namespace Data_and_Web_Coursework
             OracleParameter[] parameters;
             DateTime policyDate = DateTime.TryParse(txtDate.Text, out DateTime d) ? d : DateTime.Now;
 
+            double discountPct = 0;
+            double.TryParse(txtMultiplier.Text.Trim(), out discountPct);
+            double multiplier = 1.0 - (discountPct / 100.0);
+
             if (string.IsNullOrEmpty(hfPolicyID.Value))
             {
                 sql = "INSERT INTO PRICINGPOLICY (POLICY_ID, POLICY_NAME, MULTIPLIER, POLICY_DATE, DESCRIPTION) VALUES (:p_id, :p_name, :p_mult, :p_date, :p_desc)";
                 parameters = new OracleParameter[] {
                     new OracleParameter("p_id", txtPolicyID.Text.Trim()),
                     new OracleParameter("p_name", txtPolicyName.Text.Trim()),
-                    new OracleParameter("p_mult", txtMultiplier.Text.Trim()),
+                    new OracleParameter("p_mult", multiplier),
                     new OracleParameter("p_date", policyDate),
                     new OracleParameter("p_desc", txtDescription.Text.Trim())
                 };
@@ -57,7 +61,7 @@ namespace Data_and_Web_Coursework
                 sql = "UPDATE PRICINGPOLICY SET POLICY_NAME=:p_name, MULTIPLIER=:p_mult, POLICY_DATE=:p_date, DESCRIPTION=:p_desc WHERE POLICY_ID=:p_id";
                 parameters = new OracleParameter[] {
                     new OracleParameter("p_name", txtPolicyName.Text.Trim()),
-                    new OracleParameter("p_mult", txtMultiplier.Text.Trim()),
+                    new OracleParameter("p_mult", multiplier),
                     new OracleParameter("p_date", policyDate),
                     new OracleParameter("p_desc", txtDescription.Text.Trim()),
                     new OracleParameter("p_id", hfPolicyID.Value)
@@ -86,7 +90,7 @@ namespace Data_and_Web_Coursework
         {
             txtPolicyID.Text = "";
             txtPolicyName.Text = "";
-            txtMultiplier.Text = "1.0";
+            txtMultiplier.Text = "0";
             txtDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
             txtDescription.Text = "";
             hfPolicyID.Value = "";
@@ -107,7 +111,8 @@ namespace Data_and_Web_Coursework
                     DataRow dr = dt.Rows[0];
                     txtPolicyID.Text = dr["POLICY_ID"].ToString();
                     txtPolicyName.Text = dr["POLICY_NAME"].ToString();
-                    txtMultiplier.Text = dr["MULTIPLIER"].ToString();
+                    double dbMult = Convert.ToDouble(dr["MULTIPLIER"]);
+                    txtMultiplier.Text = ((1.0 - dbMult) * 100).ToString("0.##");
                     txtDate.Text = Convert.ToDateTime(dr["POLICY_DATE"]).ToString("yyyy-MM-dd");
                     txtDescription.Text = dr["DESCRIPTION"].ToString();
                     hfPolicyID.Value = id;
