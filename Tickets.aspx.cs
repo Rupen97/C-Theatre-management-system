@@ -198,24 +198,72 @@ namespace Data_and_Web_Coursework
 
             if (selectedSeats.Count == 0) { ShowError("Please select at least one seat."); return; }
 
-            decimal finalPrice;
-            if (!decimal.TryParse(txtFinalPrice.Text.Trim(), out finalPrice)) { ShowError("Price invalid."); return; }
-
             try
             {
+                // Recalculate price server-side for safety/validation
+                string showId = isQuick ? ddlShowtime.SelectedValue : "";
+                if (!isQuick)
+                {
+                    // 1. Get Showtime and Booking Limit (Amount = Seats)
+                    DataTable dtBooking = db.GetDataTable(@"
+                        SELECT SHOWTIME_ID, TOTAL_AMOUNT 
+                        FROM ""BOOKING"" 
+                        WHERE BOOKING_ID = :bid",
+                        new OracleParameter[] { new OracleParameter("bid", finalBookingId) });
+
+                    if (dtBooking.Rows.Count == 0) { ShowError("Booking not found."); return; }
+                    showId = dtBooking.Rows[0]["SHOWTIME_ID"].ToString();
+                    
+                    // User treats 'Amount' as the number of seats they want to issue
+                    int maxAllowed = Convert.ToInt32(Math.Floor(Convert.ToDecimal(dtBooking.Rows[0]["TOTAL_AMOUNT"])));
+
+                    // 2. Count how many tickets are ALREADY issued for this booking
+                    object currentCountObj = db.ExecuteScalar(@"
+                        SELECT COUNT(*) FROM ""TICKET"" 
+                        WHERE BOOKING_ID = :bid",
+                        new OracleParameter[] { new OracleParameter("bid", finalBookingId) });
+                    int currentCount = Convert.ToInt32(currentCountObj);
+
+                    int remainingAllowed = maxAllowed - currentCount;
+                    if (selectedSeats.Count > remainingAllowed)
+                    {
+                        ShowError(string.Format("You selected too many seats. This booking only allows {0} more seat(s) to be issued.", remainingAllowed));
+                        return;
+                    }
+                    if (selectedSeats.Count < remainingAllowed)
+                    {
+                        ShowError(string.Format("You selected too few seats. Please select exactly {0} more seat(s) to match the booking amount.", remainingAllowed));
+                        return;
+                    }
+                }
+
+                // Final price calculation for the tickets table (Rate per seat)
+                DataTable dtCalc = db.GetDataTable(@"
+                    SELECT s.BASE_PRICE * NVL(p.MULTIPLIER, 1) AS FINAL_RATE
+                    FROM ""SHOWTIME"" s
+                    LEFT JOIN PRICINGPOLICY p ON s.POLICY_ID = p.POLICY_ID
+                    WHERE s.SHOW_ID = :sid",
+                    new OracleParameter[] { new OracleParameter("sid", showId) });
+
+                if (dtCalc.Rows.Count == 0) { ShowError("Could not calculate seat price. Showtime not found."); return; }
+                decimal serverFinalPrice = Convert.ToDecimal(dtCalc.Rows[0]["FINAL_RATE"]);
+
                 if (isQuick)
                 {
+                    // Quick Sale creates a new Booking ID automatically
                     object maxB = db.ExecuteScalar("SELECT NVL(MAX(BOOKING_ID), 0) + 1 FROM \"BOOKING\"", null);
                     finalBookingId = maxB.ToString();
 
+                    // Store the number of seats in the 'TOTAL_AMOUNT' column for Quick Sales too,
+                    // to keep the manual seat-limit logic consistent.
                     db.ExecuteNonQuery(@"
                         INSERT INTO ""BOOKING"" (BOOKING_ID, USER_ID, SHOWTIME_ID, BOOKING_TIMESTAMP, TOTAL_AMOUNT, STATUS)
-                        VALUES (:bid, :uid, :sid, SYSDATE, :amt, 'Paid')",
+                        VALUES (:bid, :uid, :sid, SYSDATE, :seats, 'Paid')",
                         new OracleParameter[] {
                             new OracleParameter("bid", finalBookingId),
                             new OracleParameter("uid", ddlUser.SelectedValue),
                             new OracleParameter("sid", ddlShowtime.SelectedValue),
-                            new OracleParameter("amt", finalPrice * selectedSeats.Count)
+                            new OracleParameter("seats", (decimal)selectedSeats.Count) 
                         });
                 }
 
@@ -230,7 +278,7 @@ namespace Data_and_Web_Coursework
                         "VALUES (:tid, :prc, :bid, :sid)",
                         new OracleParameter[] {
                             new OracleParameter("tid", nextId++),
-                            new OracleParameter("prc", finalPrice),
+                            new OracleParameter("prc", serverFinalPrice),
                             new OracleParameter("bid", finalBookingId),
                             new OracleParameter("sid", seatId)
                         });
@@ -243,7 +291,8 @@ namespace Data_and_Web_Coursework
             }
             catch (Exception ex)
             {
-                ShowError("Failed to issue tickets: " + ex.Message);
+                string detail = ex.InnerException != null ? "\nDetail: " + ex.InnerException.Message : "";
+                ShowError("Database Failure: " + ex.Message + detail);
             }
         }
 

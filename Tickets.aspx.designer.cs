@@ -12,7 +12,7 @@ namespace Data_and_Web_Coursework {
         protected global::System.Web.UI.WebControls.Literal litSelectionType;
         protected global::System.Web.UI.WebControls.CheckBoxList cblSeats;
         protected global::System.Web.UI.WebControls.Label lblNoSeats;
-        protected global::System.Web.UI.WebControls.Button btnSave;
+        protected global::System.Web.UI.WebControls.LinkButton btnSave;
         protected global::System.Web.UI.WebControls.Button btnClear;
         protected global::System.Web.UI.WebControls.GridView gvTickets;
     }
