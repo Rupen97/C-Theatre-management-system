@@ -4,15 +4,15 @@
     <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
         <div class="row">
             <div class="col-md-12">
-                <h2 class="mb-1"><i class="fas fa-user-clock me-2 text-primary"></i>Customer Loyalty View</h2>
+                <h2 class="mb-1"><i class="fas fa-user-clock me-2 text-dark"></i>Customer Loyalty View</h2>
                 <p class="text-muted mb-4">View ticket purchase history and loyalty stats for the last 6 months.</p>
 
                 <%-- ── Help Section ── --%>
-                    <div class="alert alert-info border-0 shadow-sm mb-4 p-0"
-                        style="border-radius:12px;overflow:hidden;">
+                    <div class="alert alert-secondary border-0 shadow-sm mb-4 p-0"
+                        style="border-radius:12px;overflow:hidden;background:var(--g100);">
                         <div class="d-flex align-items-center px-4 py-2 fw-bold"
-                            style="background:rgba(13,202,240,.15);cursor:pointer;" onclick="toggleGuide()">
-                            <i class="fas fa-question-circle text-info me-2"></i> Loyalty Radar Tips
+                            style="background:var(--g200);cursor:pointer;" onclick="toggleGuide()">
+                            <i class="fas fa-question-circle text-dark me-2"></i> Loyalty Radar Tips
                             <i class="fas fa-chevron-down ms-auto" id="guideChevron"></i>
                         </div>
                         <div id="guideBody" style="display:none;" class="px-4 py-3">
@@ -30,7 +30,7 @@
 
                     <div class="card mb-4 shadow-sm border-0" style="border-radius:14px;">
                         <div class="card-header text-white fw-bold"
-                            style="background:linear-gradient(135deg,#3a86ff,#2667d1);border-radius:14px 14px 0 0;">
+                            style="background:var(--g800);border-radius:14px 14px 0 0;">
                             <i class="fas fa-search me-2"></i>Search Customer
                         </div>
                         <div class="card-body">
@@ -41,8 +41,10 @@
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-md-3">
-                                    <asp:Button ID="btnSearch" runat="server" Text="📊 Generate Report"
-                                        CssClass="btn btn-primary fw-semibold w-100" OnClick="btnSearch_Click" />
+                                    <asp:LinkButton ID="btnSearch" runat="server"
+                                        CssClass="btn btn-primary fw-semibold w-100" OnClick="btnSearch_Click">
+                                        <i class="fas fa-chart-bar me-2"></i>Generate Report
+                                    </asp:LinkButton>
                                 </div>
                                 <div class="col-md-3">
                                     <asp:Label ID="lblMsg" runat="server" CssClass="fw-bold"></asp:Label>
@@ -56,7 +58,7 @@
                             <div class="card-header d-flex justify-content-between align-items-center bg-dark text-white"
                                 style="border-radius:14px 14px 0 0;">
                                 <span><i class="fas fa-history me-2"></i>Ticket History</span>
-                                <asp:Label ID="lblUserInfo" runat="server" CssClass="text-warning fw-semibold">
+                                <asp:Label ID="lblUserInfo" runat="server" CssClass="text-light fw-semibold">
                                 </asp:Label>
                             </div>
                             <div class="card-body p-0">
