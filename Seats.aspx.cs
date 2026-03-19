@@ -181,5 +181,10 @@ namespace Data_and_Web_Coursework
             string script = $"ShowPopup('Success!', '{msg.Replace("'", "\\'")}', 'success');";
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", script, true);
         }
+
+        protected void gvSeats_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

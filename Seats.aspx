@@ -106,7 +106,7 @@
                         <div class="card-body p-0">
                             <asp:GridView ID="gvSeats" runat="server" CssClass="table table-hover mb-0"
                                 AutoGenerateColumns="False" OnRowCommand="gvSeats_RowCommand" AllowPaging="True"
-                                PageSize="15" OnPageIndexChanging="gvSeats_PageIndexChanging">
+                                PageSize="15" OnPageIndexChanging="gvSeats_PageIndexChanging" OnSelectedIndexChanged="gvSeats_SelectedIndexChanged">
                                 <HeaderStyle CssClass="table-dark" />
                                 <Columns>
                                     <asp:BoundField DataField="SEAT_ID" HeaderText="ID" />

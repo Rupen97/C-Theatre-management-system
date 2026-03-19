@@ -210,5 +210,15 @@ namespace Data_and_Web_Coursework
             string script = $"ShowPopup('Success!', '{msg.Replace("'", "\\'")}', 'success');";
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", script, true);
         }
+
+        protected void txtTitle_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void gvMovies_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

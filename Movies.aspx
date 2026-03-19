@@ -42,7 +42,7 @@
                                     <div class="col-md-4">
                                         <label class="form-label">Title <span class="text-danger">*</span></label>
                                         <asp:TextBox ID="txtTitle" runat="server" CssClass="form-control"
-                                            placeholder="Movie Title (max 60 chars)"></asp:TextBox>
+                                            placeholder="Movie Title (max 60 chars)" OnTextChanged="txtTitle_TextChanged"></asp:TextBox>
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label">Genre <span class="text-danger">*</span></label>
@@ -104,7 +104,7 @@
                                     <div class="card-body p-0">
                                         <asp:GridView ID="gvMovies" runat="server"
                                             CssClass="table table-striped table-hover mb-0" AutoGenerateColumns="False"
-                                            DataKeyNames="MOVIE_ID" OnRowCommand="gvMovies_RowCommand">
+                                            DataKeyNames="MOVIE_ID" OnRowCommand="gvMovies_RowCommand" OnSelectedIndexChanged="gvMovies_SelectedIndexChanged">
                                             <EmptyDataTemplate>
                                                 <div class="p-4 text-center text-muted">No movies found. Add one above!
                                                 </div>

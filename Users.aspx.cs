@@ -30,13 +30,11 @@ namespace Data_and_Web_Coursework
         {
             if (string.IsNullOrEmpty(txtUserID.Text) && string.IsNullOrEmpty(hfUserID.Value))
             {
-                ShowError("User ID is required.");
-                return;
+                throw new Exception("CRITICAL FAILURE: User ID cannot be empty during creation. Correction Measure: Ensure you have entered a valid, unique User ID in the User ID field before clicking Save.");
             }
             if (string.IsNullOrEmpty(txtName.Text))
             {
-                ShowError("Name is required.");
-                return;
+                throw new Exception("CRITICAL FAILURE: Name field is missing. Correction Measure: The User Name is a mandatory field. Please fill in the Name field before saving.");
             }
             if (string.IsNullOrEmpty(txtEmail.Text))
             {
